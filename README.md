@@ -1,0 +1,1 @@
+# CropCure-Intelligent-Disease-Detection-and-Fertilizer-Advisory-System
