@@ -1,23 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { predictDisease } from "./services/api";
 
 function App() {
+  const [result, setResult] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handleTest = async () => {
+    try {
+      const response = await predictDisease();
+      setResult(response.data);
+      setError(null);
+    } catch (err) {
+      setError("API call failed");
+      console.error(err);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "20px" }}>
+      <h2>Crop Disease Detection</h2>
+
+      <button onClick={handleTest}>Test Django API</button>
+
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {result && (
+        <div style={{ marginTop: "20px" }}>
+          <p>
+            <b>Disease:</b> {result.disease}
+          </p>
+          <p>
+            <b>Fertilizer:</b> {result.fertilizer}
+          </p>
+          <p>
+            <b>Prevention:</b> {result.prevention}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
